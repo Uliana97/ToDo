@@ -7,16 +7,20 @@ export default class TodoListItem extends Component {
     done: false,
     important: false,
   };
-
+  // With click on label we toggle state 'done'. If Done = true - we add class 'done'
   onLabelClick = () => {
-    this.setState({
-      done: !this.state.done,
+    this.setState(({ done }) => {
+      return {
+        done: !done,
+      };
     });
   };
-
+  // With click on green button we toggle state 'important'. If Important = true - we add class 'important'
   onImportant = () => {
-    this.setState({
-      important: !this.state.important,
+    this.setState((state) => {
+      return {
+        important: !state.important,
+      };
     });
   };
 
