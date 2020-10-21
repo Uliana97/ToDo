@@ -22,7 +22,12 @@ const App = () => {
         <ItemStatusFilter />
       </div>
 
-      <TodoList todos={todoData} />
+      <TodoList
+        todos={todoData}
+        // I want to recive id of element where red button was clicked (3 levels lower) and then i will delete it from DB
+        //This is custom event mean: I give onDelete prop to TodoList with callback f inside, which takes id and then do smth with it
+        onDeleted={(id) => console.log("this is" + id)}
+      />
     </div>
   );
 };
