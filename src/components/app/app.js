@@ -53,28 +53,31 @@ export default class App extends Component {
     });
   };
 
-  onToggleProperty = (arr, id, propName) => {
-    //find index of clicked item
-    const idx = arr.findIndex((el) => el.id === id);
-    //find this item in DB
-    const oldItem = arr[idx];
-    //we cant change array! its possible trick:
-    const newItem = { ...oldItem, [propName]: !oldItem[propName] };
-    //here we dont change old DB! just slice it, remove old item and add newItem
-    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
+  onToggleProperty = (id, propName) => {
+    this.setState(({ todoData }) => {
+      //find index of clicked item
+      const idx = todoData.findIndex((el) => el.id === id);
+      //find this item in DB
+      const oldItem = todoData[idx];
+      //we cant change array! its possible trick:
+      const newItem = { ...oldItem, [propName]: !oldItem[propName] };
+      //here we dont change old DB! just slice it, remove old item and add newItem
+      const newArray = [
+        ...todoData.slice(0, idx),
+        newItem,
+        ...todoData.slice(idx + 1),
+      ];
+
+      return { todoData: newArray };
+    });
   };
 
   onToggleDone = (id) => {
-    this.setState(({ todoData }) => {
-      return { todoData: this.onToggleProperty(todoData, id, "done") };
-    });
+    this.onToggleProperty(id, "done");
   };
 
   onToggleImportant = (id) => {
-    this.setState(({ todoData }) => {
-      //update DB
-      return { todoData: this.onToggleProperty(todoData, id, "important") };
-    });
+    this.onToggleProperty(id, "important");
   };
 
   render() {
