@@ -4,7 +4,7 @@ import "./todo-list.css";
 
 import TodoListItem from "../todo-list-item/";
 //Recive todos and onDeleted from App
-const TodoList = ({ todos, onDeleted }) => {
+const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
   return (
     <ul className="list-group todo-list">
       {todos.map(({ id, ...item }) => {
@@ -14,6 +14,8 @@ const TodoList = ({ todos, onDeleted }) => {
               //Send New! onDeleted props to TodoListItem with f (from App) inside
               //Here we send to App id of clicked item
               onDeleted={() => onDeleted(id)}
+              onToggleImportant={() => onToggleImportant(id)}
+              onToggleDone={() => onToggleDone(id)}
               key={id + item.label}
               {...item}
             />

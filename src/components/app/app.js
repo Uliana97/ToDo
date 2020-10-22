@@ -9,6 +9,7 @@ import AddButton from "../add-button";
 import "./app.css";
 
 export default class App extends Component {
+  //generate id from 100
   maxId = 100;
 
   state = {
@@ -46,6 +47,14 @@ export default class App extends Component {
     });
   };
 
+  onToggleImportant = (id) => {
+    console.log(`Toggle Important ${id}`);
+  };
+
+  onToggleDone = (id) => {
+    console.log(`Toggle Done ${id}`);
+  };
+
   render() {
     const { todoData } = this.state;
 
@@ -62,6 +71,8 @@ export default class App extends Component {
           // I want to recive id of element where red button was clicked (3 levels lower) and then i will delete it from DB
           //This is custom event mean: I give onDelete prop to TodoList with callback f inside, which takes id and then do smth with it (call func deleteItem)
           onDeleted={this.deleteItem}
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
         />
         <AddButton onAdded={this.addItem} />
       </div>
