@@ -4,13 +4,13 @@ import AppHeader from "../app-header/";
 import SearchPanel from "../search-panel/";
 import TodoList from "../todo-list/";
 import ItemStatusFilter from "../item-status-filter/";
-import AddButton from "../add-button";
+import AddItemform from "../add-item-form";
 
 import "./app.css";
 
 export default class App extends Component {
   //generate id from 100
-  maxId = 1000;
+  maxId = 100;
 
   state = {
     todoData: [
@@ -103,7 +103,7 @@ export default class App extends Component {
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}
         />
-        <AddButton onAdded={this.addItem} />
+        <AddItemform onAdded={this.addItem} />
       </div>
     );
   }
