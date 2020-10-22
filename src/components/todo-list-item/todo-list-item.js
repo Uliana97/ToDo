@@ -17,7 +17,6 @@ const TodoListItem = ({
   if (important) {
     classNames += " important";
   }
-
   return (
     <span className={classNames}>
       <span onClick={onToggleDone} className="todo-list-item-label">

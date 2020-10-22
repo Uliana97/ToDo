@@ -58,15 +58,34 @@ export default class App extends Component {
   };
 
   onToggleDone = (id) => {
-    console.log(`Toggle Done ${id}`);
+    this.setState(({ todoData }) => {
+      //find index of clicked item
+      const idx = todoData.findIndex((el) => el.id === id);
+      //find this item in DB
+      const oldItem = todoData[idx];
+      //we cant change array! its possible trick:
+      const newItem = { ...oldItem, done: !oldItem.done };
+      //here we dont change old DB! just slice it, remove old item and add newItem
+      const newArray = [
+        ...todoData.slice(0, idx),
+        newItem,
+        ...todoData.slice(idx + 1),
+      ];
+      //update DB
+      return { todoData: newArray };
+    });
   };
 
   render() {
     const { todoData } = this.state;
 
+    //how many done=true elements in DB we have
+    const doneCount = todoData.filter((el) => el.done).length;
+    const todoCount = todoData.length - doneCount;
+
     return (
       <div className="todo-app">
-        <AppHeader toDo={1} done={3} />
+        <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel />
           <ItemStatusFilter />
