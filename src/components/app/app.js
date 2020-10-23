@@ -19,6 +19,7 @@ export default class App extends Component {
       this.createTodoItem("Do Coding"),
     ],
     term: "",
+    filter: "all", //active, done, all
   };
 
   createTodoItem(label) {
@@ -85,6 +86,10 @@ export default class App extends Component {
     this.setState({ term: value });
   };
 
+  onFilterChange = (status) => {
+    this.setState({ filter: status });
+  };
+
   Search = (array, term) => {
     //if no input data on search panel return old array
     if (term.length === 0) {
@@ -96,6 +101,20 @@ export default class App extends Component {
     });
   };
 
+  Filter = (array, filter) => {
+    switch (filter) {
+      case "all":
+        return array;
+      case "active":
+        return array.filter((el) => !el.done);
+      case "done":
+        return array.filter((el) => el.done);
+
+      default:
+        return array;
+    }
+  };
+
   render() {
     const { todoData, term } = this.state;
 
@@ -103,14 +122,21 @@ export default class App extends Component {
     const doneCount = todoData.filter((el) => el.done).length;
     const todoCount = todoData.length - doneCount;
 
-    const visibleItems = this.Search(todoData, term);
+    //At first we search letters from input and make some array, and then we filter this array with status: 'active', 'done', or 'all'
+    const visibleItems = this.Filter(
+      this.Search(todoData, term),
+      this.state.filter
+    );
 
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel onSearch={this.onSearch} />
-          <ItemStatusFilter />
+          <ItemStatusFilter
+            filter={this.state.filter}
+            onFilterChange={this.onFilterChange}
+          />
         </div>
 
         <TodoList
