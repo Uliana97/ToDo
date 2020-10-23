@@ -14,6 +14,7 @@ export default class Additemform extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onAdded(this.state.label);
+    this.setState({ label: "" });
   };
 
   render() {
@@ -24,8 +25,11 @@ export default class Additemform extends Component {
           className="form-control"
           placeholder="What needs to be done?"
           onChange={this.onChange}
+          value={this.state.label}
         />
-        <button className="btn btn-outline-secondary">Create</button>
+        <button type="submit" className="btn btn-outline-secondary">
+          Create
+        </button>
       </form>
     );
   }
