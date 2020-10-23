@@ -18,6 +18,7 @@ export default class App extends Component {
       this.createTodoItem("Read Book"),
       this.createTodoItem("Do Coding"),
     ],
+    term: "",
   };
 
   createTodoItem(label) {
@@ -80,23 +81,40 @@ export default class App extends Component {
     this.onToggleProperty(id, "important");
   };
 
+  onSearch = (value) => {
+    this.setState({ term: value });
+  };
+
+  Search = (array, term) => {
+    //if no input data on search panel return old array
+    if (term.length === 0) {
+      return array;
+    }
+    //else filter data and return new array
+    return array.filter((item) => {
+      return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    });
+  };
+
   render() {
-    const { todoData } = this.state;
+    const { todoData, term } = this.state;
 
     //how many done=true elements in DB we have
     const doneCount = todoData.filter((el) => el.done).length;
     const todoCount = todoData.length - doneCount;
 
+    const visibleItems = this.Search(todoData, term);
+
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
-          <SearchPanel />
+          <SearchPanel onSearch={this.onSearch} />
           <ItemStatusFilter />
         </div>
 
         <TodoList
-          todos={todoData}
+          todos={visibleItems}
           // I want to recive id of element where red button was clicked (3 levels lower) and then i will delete it from DB
           //This is custom event mean: I give onDelete prop to TodoList with callback f inside, which takes id and then do smth with it (call func deleteItem)
           onDeleted={this.deleteItem}
